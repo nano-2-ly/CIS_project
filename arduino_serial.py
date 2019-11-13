@@ -12,7 +12,7 @@ while True :
         time.sleep(0.1)
             
     ser.write(bytes('G0 Y3\n'))
-    ser.write(bytes('G0 Z10\n'))
+    ser.write(bytes('G0 Z5\n'))
     
     for j in range(4):
         ser.write(bytes('G91\n'))    
@@ -20,6 +20,6 @@ while True :
         time.sleep(0.1)
         
     ser.write(bytes('G0 Y-3\n'))
-    ser.write(bytes('G0 Z-10\n'))
+    ser.write(bytes('G0 Z-5\n'))
     
     
