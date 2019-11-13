@@ -42,3 +42,4 @@ while True :
         ser.write(bytes('cam_focus_down\n')) 
         
     
+

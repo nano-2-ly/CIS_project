@@ -8,7 +8,7 @@ import signal
 import json
 from ImageConvert import *
 import ArducamSDK
-
+import serial
 
 global cfg,handle,running,Width,Heigth,save_flag,color_mode,save_raw
 running = True
@@ -16,7 +16,7 @@ save_flag = False
 save_raw = False
 cfg = {}
 handle = {}
-
+ser = serial.Serial('/dev/ttyACM0', 115200)
 
 def configBoard(fileNodes):
     global handle
@@ -227,7 +227,7 @@ if __name__ == "__main__":
         while running:
             input_kb = str(sys.stdin.readline()).strip("\n")
 
-            if input_kb == 'scan' or input_kb == 'SCAN':
+            if input_kb == 'scansc' or input_kb == 'SCAN':
                 for i in range(4):
                     time.sleep(0.1)
                     save_flag = True

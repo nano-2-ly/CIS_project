@@ -1,0 +1,1 @@
+sudo python ArduCam_Py_Demo.py ./python_config/MT9J001.json
