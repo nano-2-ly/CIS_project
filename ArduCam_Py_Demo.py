@@ -227,7 +227,7 @@ if __name__ == "__main__":
         while running:
             input_kb = str(sys.stdin.readline()).strip("\n")
 
-            if input_kb == 'scansc' or input_kb == 'SCAN':
+            if input_kb == 'scan' or input_kb == 's':
                 for i in range(4):
                     time.sleep(0.1)
                     save_flag = True
