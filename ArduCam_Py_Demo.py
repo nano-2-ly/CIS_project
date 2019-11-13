@@ -175,6 +175,7 @@ def readImage_thread():
                     with open("images/image%d.raw"%totalFrame, 'wb') as f:
                         f.write(data)
                 totalFrame += 1
+                save_flag = False
                 
             image = cv2.resize(image,(640,480),interpolation = cv2.INTER_LINEAR)
 
@@ -226,12 +227,32 @@ if __name__ == "__main__":
         while running:
             input_kb = str(sys.stdin.readline()).strip("\n")
 
-            if input_kb == 'q' or input_kb == 'Q':
-                running = False
-            if input_kb == 's' or input_kb == 'S':
-                save_flag = True
-            if input_kb == 'c' or input_kb == 'C':
-                save_flag = False
+            if input_kb == 'scan' or input_kb == 'SCAN':
+                for i in range(4):
+                    time.sleep(0.1)
+                    save_flag = True
+                    ser.write(bytes('G91\n'))       
+                    ser.write(bytes('G0 X2\n'))
+                    
+
+                        
+                ser.write(bytes('G0 Y3\n'))
+                ser.write(bytes('G0 Z5\n'))
+                    
+                for j in range(4):
+                    time.sleep(0.1)
+                    save_flag = True
+                    ser.write(bytes('G91\n'))    
+                    ser.write(bytes('G0 X-2\n'))
+                    time.sleep(0.1)
+                    
+                ser.write(bytes('G0 Y-3\n'))
+                ser.write(bytes('G0 Z-5\n'))
+
+            if input_kb == 'cam_focus_up' or input_kb == 'up':
+                ser.write(bytes('cam_focus_up\n'))
+            if input_kb == 'cam_focus_down' or input_kb == 'down':
+                ser.write(bytes('cam_focus_down\n')) 
 
         ct.join()
         rt.join()
