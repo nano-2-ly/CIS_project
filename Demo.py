@@ -14,7 +14,6 @@ global cfg,handle,running,Width,Heigth,save_flag,color_mode,save_raw
 running = True
 save_flag = False
 save_raw = False
-serial_command = ""
 cfg = {}
 handle = {}
 #ser = serial.Serial('/dev/ttyACM0', 115200)
@@ -136,7 +135,7 @@ def captureImage_thread():
             print("Error capture image, rtn_val = ",rtn_val)
             if rtn_val == ArducamSDK.USB_CAMERA_USB_TASK_ERROR:
                 break
-        time.sleep(0.5)
+        time.sleep(0.005)
         
     running = False
     ArducamSDK.Py_ArduCam_endCaptureImage(handle)
@@ -171,7 +170,6 @@ def readImage_thread():
                 time0 = time1
             count += 1
             if save_flag:
-                time.sleep(0.5)
                 cv2.imwrite("images/image%d.jpg"%totalFrame,image)
                 if save_raw:
                     with open("images/image%d.raw"%totalFrame, 'wb') as f:
@@ -187,7 +185,7 @@ def readImage_thread():
             #print("------------------------display time:",(time.time() - display_time))
         else:
             time.sleep(0.001);
-
+        
 def showHelp():
     print(" usage: sudo python ArduCam_Py_Demo.py <path/config-file-name>	\
         \n\n example: sudo python ArduCam_Py_Demo.py ../../../python_config/AR0134_960p_Color.json	\
@@ -207,7 +205,11 @@ signal.signal(signal.SIGINT, sigint_handler)
 signal.signal(signal.SIGTERM, sigint_handler)
 
 if __name__ == "__main__":
-
+    #global handle,running,Width,Height,save_flag,cfg,color_mode,save_raw
+    global COLOR_BayerGB2BGR,COLOR_BayerRG2BGR,COLOR_BayerGR2BGR,COLOR_BayerBG2BGR
+    
+    
+    
     config_file_name = ""
     if len(sys.argv) > 1:
         config_file_name = sys.argv[1]
@@ -220,31 +222,21 @@ if __name__ == "__main__":
         exit()
 
     if camera_initFromFile(config_file_name):
-        ArducamSDK.Py_ArduCam_setMode(handle,ArducamSDK.CONTINUOUS_MODE)
-        ct = threading.Thread(target=captureImage_thread)
-        rt = threading.Thread(target=readImage_thread)
-        #so = threading.Thread(target=Serial_open)
-        ct.start()
-        rt.start()
-        #so.start()
-        import RPi.GPIO as GPIO
-        GPIO.setmode(GPIO.BCM)
-
-        GPIO.setup(4,GPIO.IN)
         
-        while running:
-            if (GPIO.input(4)) :
-                save_flag = True
-                time.sleep(1)
+        ArducamSDK.Py_ArduCam_setMode(handle,ArducamSDK.CONTINUOUS_MODE)
+        
+        while True:
+            if ArducamSDK.Py_ArduCam_availableImage(handle) > 0:
+                print('hello')
+                rtn_val,data,rtn_cfg = ArducamSDK.Py_ArduCam_readImage(handle)
+                image = convert_image(data,rtn_cfg,color_mode)
+        
+    #pause
+    #ArducamSDK.Py_ArduCam_writeReg_8_8(handle,0x46,3,0x40)
+    rtn_val = ArducamSDK.Py_ArduCam_close(handle)
+    if rtn_val == 0:
+        print("device close success!")
+    else:
+        print("device close fail!")
 
-        ct.join()
-        rt.join()
-        #pause
-        #ArducamSDK.Py_ArduCam_writeReg_8_8(handle,0x46,3,0x40)
-        rtn_val = ArducamSDK.Py_ArduCam_close(handle)
-        if rtn_val == 0:
-            print("device close success!")
-        else:
-            print("device close fail!")
-
-        #os.system("pause")
+    #os.system("pause")
