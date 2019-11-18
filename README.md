@@ -40,6 +40,7 @@ https://docs.google.com/drawings/d/1WqcHj6S4HBoOiocuN7mQh45zHFYfe40FQ51j9Z0WwFs/
 ~~~
 <br>
 Wire connection step is finished. Next step is execute firmware.</br>
+
 + supply 5~7V(USB port) power to two arduinos.
 + supply 12V power to CNC shield.
 + supply power to RPi.
