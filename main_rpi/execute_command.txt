@@ -1,0 +1,12 @@
+cd /home/pi/Desktop/dev/CIS_hackaton
+
+cd /home/pi/Desktop/ArduCAM_USB_Camera_Shield-master/RaspberryPi/Python/Streaming_demo
+
+sudo python ArduCam_Py_Demo.py ./python_config/MT9J001_10MP.json
+
+sudo python ArduCam_Py_Demo.py ./python_config/MT9J001_10MP.json
+
+sudo python ArduCam_Py_Demo.py ../../../python_config/MT9J001_10MP.jsonsudo python ArduCam_Py_Demo.py ./python_config/MT9J001_10MP.json
+
+
+
