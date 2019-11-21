@@ -46,4 +46,11 @@ Wire connection step is finished. Next step is execute firmware.</br>
 + supply power to RPi.
 + execute Arducam_Py_Demo.py on RPi.
 <br>
-Now, System would be works well.
+Now, System would be works well.</br>
+This program will operate below sequence.</br>
+1. take 8 pictures that 1mm moved sample with xy axis.<br>
+2. move z axis 10mm.<br>
+3. move linear motor focusing cameara.<br>
+
+
+
